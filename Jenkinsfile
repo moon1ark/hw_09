@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         REMOTE_USER_HOST = 'azureuser@20.56.34.147'
-        SSH_CREDENTIALS_ID = 'azure-key'
+        SSH_CREDENTIALS_ID = 'azure-key' 
     }
 
     stages {
@@ -22,11 +22,8 @@ pipeline {
                         sh """
                             ssh -o StrictHostKeyChecking=no ${REMOTE_USER_HOST} '''
                                 sudo apt-get update -y
-                                
                                 sudo apt-get install -y apache2
-
                                 sudo systemctl enable --now apache2
-                                
                                 sudo systemctl status apache2
                             '''
                         """
@@ -41,7 +38,7 @@ pipeline {
                 script {
                     sshagent(credentials: [SSH_CREDENTIALS_ID]) {
                         def error_logs = sh(
-                            script: "ssh -o StrictHostKeyChecking=no ${REMOTE_USER_HOST} 'grep -E \" \\\"(4|5)[0-9]{2} \\\"\" /var/log/apache2/access.log || true'",
+                            script: "ssh -o StrictHostKeyChecking=no ${REMOTE_USER_HOST} 'grep -E \" (4|5)[0-9]{2} \" /var/log/apache2/access.log || true'",
                             returnStdout: true
                         ).trim()
 
