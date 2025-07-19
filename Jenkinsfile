@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -18,15 +19,17 @@ pipeline {
             steps {
                 script {
                     sshagent(credentials: [SSH_CREDENTIALS_ID]) {
-                        sh "ssh -o StrictHostKeyChecking=no ${REMOTE_USER_HOST} '''
-                            sudo apt-get update -y
-                            
-                            sudo apt-get install -y apache2
+                        sh """
+                            ssh -o StrictHostKeyChecking=no ${REMOTE_USER_HOST} '''
+                                sudo apt-get update -y
+                                
+                                sudo apt-get install -y apache2
 
-                            sudo systemctl enable --now apache2
-                            
-                            sudo systemctl status apache2
-                        '''"
+                                sudo systemctl enable --now apache2
+                                
+                                sudo systemctl status apache2
+                            '''
+                        """
                     }
                     echo "Apache server installed."
                 }
