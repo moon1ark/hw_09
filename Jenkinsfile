@@ -4,7 +4,7 @@ pipeline {
 
     environment {
         REMOTE_USER_HOST = 'azureuser@20.56.34.147'
-        SSH_CREDENTIALS_ID = 'remote-vm-ssh-key'
+        SSH_CREDENTIALS_ID = 'azure-key'
     }
 
     stages {
